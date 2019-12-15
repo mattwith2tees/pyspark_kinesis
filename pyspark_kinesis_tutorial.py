@@ -8,7 +8,7 @@ spark = SparkSession.builder \
     .getOrCreate()
 
 
-kinesisSpark = spark.readStream \
+kinesisDF = spark.readStream \
     .format('kinesis') \
     .option('streamName', '<aws_kinesis_stream_name>') \
     .option('region', '<your_region>') \
@@ -19,7 +19,7 @@ kinesisSpark = spark.readStream \
     .load()
 
 
-userDF = kinesisSpark \
+query = kinesisSpark \
     .selectExpr('CAST (data as STRING)').alias("stream_data") \
     .writeStream \
     .format('console') \
